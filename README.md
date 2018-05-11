@@ -2,6 +2,8 @@
 
 The Si7021 temperature and humidity sensor is a I2C sensor that accurately measures environmental conditions. This application for the [ESP32]() is a test of a component that creates and interface to this device.
 
+![logic trace](https://github.com/NSBum/esp32-mcp23017-demo/blob/master/logictrace.png)
+
 ### Usage
 
 To use this application, you must have the ESP-IDF environment installed. After cloning, you will need to run `make menuconfig` to set up the proper make files and then `make flash` to flash it onto your device.
