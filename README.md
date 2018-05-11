@@ -1,6 +1,6 @@
-## Reading Si7021 temperature and humidity sensor with ESP32
+## Interfacing an MCP23017 I2C GPIO expander with ESP32
 
-The Si7021 temperature and humidity sensor is a I2C sensor that accurately measures environmental conditions. This application for the [ESP32]() is a test of a component that creates and interface to this device.
+The MCP23017 is an I2C bus GPIO expander. This is an demonstration application for the ESP32 in the ESP-IDF environment.
 
 ![](https://github.com/NSBum/esp32-mcp23017-demo/blob/master/i2clogic.png)
 
@@ -8,7 +8,4 @@ The Si7021 temperature and humidity sensor is a I2C sensor that accurately measu
 
 To use this application, you must have the ESP-IDF environment installed. After cloning, you will need to run `make menuconfig` to set up the proper make files and then `make flash` to flash it onto your device.
 
-### References
-
-- [Si7021 datasheet](http://ojisanseiuchi.com/2018/03/11/Reading-data-from-Si7021-temperature-and-humidity-sensor-using-Raspberry-Pi/Si7021-A20.pdf)
-- [Reading Si7021/HTU21D on the Raspberry Pi I2C bus](https://www.iot-programmer.com/index.php/books/22-raspberry-pi-and-the-iot-in-c/chapters-raspberry-pi-and-the-iot-in-c/61-raspberry-pi-and-the-iot-in-c-i2c-bus?showall=&start=3) - an excellent article for understanding how to implement clock-stretching and dealing with specifics of the Si7021 device.
+**Note**: The MCP23017 component in this demonstration does not yet support interrupt functionality. Also, the intent isn't really to duplicate Arduino `digitalWrite` type functionality. After spending a little time with the datasheet and learning how to set and clear bits, you can easily accomplish what you need without trying to emulate Arduino. 
