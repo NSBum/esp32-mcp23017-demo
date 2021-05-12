@@ -98,33 +98,30 @@ mcp23017_err_t mcp23017_write_register(mcp23017_t *mcp, mcp23017_reg_t reg, mcp2
  * @return an error code or MCP23017_ERR_OK if no error encountered
 */
 mcp23017_err_t mcp23017_read_register(mcp23017_t *mcp, mcp23017_reg_t reg, mcp23017_gpio_t group, uint8_t *data) {
-   // from the generic register and group, derive register address
-   uint8_t r = mcp23017_register(reg, group);
-   
-	i2c_cmd_handle_t cmd = i2c_cmd_link_create();
-	i2c_master_start(cmd);
-	i2c_master_write_byte(cmd, (mcp->i2c_addr << 1) | I2C_MASTER_WRITE, ACK_CHECK_EN);
-	i2c_master_write_byte(cmd, r, 1);
-	i2c_master_stop(cmd);
-	esp_err_t ret =i2c_master_cmd_begin(mcp->port, cmd, 1000 / portTICK_RATE_MS);
-	i2c_cmd_link_delete(cmd);
-	if( ret == ESP_FAIL ) {
-	   ESP_LOGE(TAG,"ERROR: unable to write address %02x to read reg %02x",mcp->i2c_addr,r);
-	   return MCP23017_ERR_FAIL;
-	}
-	
-	cmd = i2c_cmd_link_create();
-	i2c_master_start(cmd);
-	i2c_master_write_byte(cmd, (mcp->i2c_addr << 1) | I2C_MASTER_READ, ACK_CHECK_EN);
-	i2c_master_read_byte(cmd, data, 1);
-	ret =i2c_master_cmd_begin(mcp->port, cmd, 1000 / portTICK_RATE_MS);
-	i2c_cmd_link_delete(cmd);
-	if( ret == ESP_FAIL ) {
-	   ESP_LOGE(TAG,"ERROR: unable to read reg %02x from address %02x",r,mcp->i2c_addr);
-	   return MCP23017_ERR_FAIL;
-	}
-	
-	return MCP23017_ERR_OK;
+    // from the generic register and group, derive register address
+    uint8_t r = mcp23017_register(reg, group);
+
+    i2c_cmd_handle_t cmd = i2c_cmd_link_create();
+
+    i2c_master_start(cmd);
+    i2c_master_write_byte(cmd, (mcp->i2c_addr << 1) | I2C_MASTER_WRITE, ACK_CHECK_EN);
+    i2c_master_write_byte(cmd, r, ACK_CHECK_EN);
+
+    i2c_master_start(cmd);
+    i2c_master_write_byte(cmd, (mcp->i2c_addr << 1) | I2C_MASTER_READ, ACK_CHECK_EN);
+
+    i2c_master_read_byte(cmd, data, ACK_CHECK_EN);
+
+    i2c_master_stop(cmd);
+
+    esp_err_t ret =i2c_master_cmd_begin(mcp->port, cmd, 1000 / portTICK_RATE_MS);
+    i2c_cmd_link_delete(cmd);
+    if( ret == ESP_FAIL ) {
+       ESP_LOGE(TAG,"ERROR: unable to read reg %02x from address %02x",r,mcp->i2c_addr);
+       return MCP23017_ERR_FAIL;
+    }
+
+    return MCP23017_ERR_OK;
 }
 
 /**
