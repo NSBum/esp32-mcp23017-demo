@@ -1,4 +1,7 @@
- // Error library
+#ifndef MCP23017_H_INCLUDED
+#define MCP23017_H_INCLUDED
+
+// Error library
 #include "esp_err.h"
 
 // I2C driver
@@ -121,3 +124,5 @@ mcp23017_err_t mcp23017_write_register(mcp23017_t *mcp, mcp23017_reg_t reg, mcp2
 mcp23017_err_t mcp23017_read_register(mcp23017_t *mcp, mcp23017_reg_t reg, mcp23017_gpio_t group, uint8_t *data);
 mcp23017_err_t mcp23017_set_bit(mcp23017_t *mcp, uint8_t bit, mcp23017_reg_t reg, mcp23017_gpio_t group);
 mcp23017_err_t mcp23017_clear_bit(mcp23017_t *mcp, uint8_t bit, mcp23017_reg_t reg, mcp23017_gpio_t group);
+
+#endif // MCP23017_H_INCLUDED
